@@ -26,7 +26,7 @@ export default function WaitlistForm(props: any) {
             email
         }),
         headers
-    });
+    }) as any;
 
 
     res = await res.json();

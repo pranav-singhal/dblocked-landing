@@ -1,4 +1,5 @@
 // import type { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import { z } from "zod";
 
 // Define response data type
@@ -21,7 +22,7 @@ export async function POST (
   // 1. Validate email address
   const emailValidation = EmailSchema.safeParse(body.email);
   if (!emailValidation.success) {
-    return Response.json({message: "invalid email provided", status: 400})
+    return NextResponse.json({message: "invalid email provided", status: 400})
   }
 
   // 2. Retrieve Mailchimp credentials from environment variables
@@ -45,22 +46,22 @@ export async function POST (
           status: "subscribed",
         }),
         headers
-    });
+    }) as any;
     
     response = await response.json();
 
     console.log("mailchimp response: ", response);
     
     if (response.status == 'subscribed') {
-      return Response.json({ message: "Awesome! You have successfully subscribed!", status: 200 });
+      return NextResponse.json({ message: "Awesome! You have successfully subscribed!", status: 200 });
     }
 
     if (response?.title === 'Member Exists') {
-      return Response.json({ message: "Looks like you are already subscribed", status: 201 });
+      return NextResponse.json({ message: "Looks like you are already subscribed", status: 201 });
     }
 
     
-    return Response.json({ message: "Something went wrong", status: response.status });
+    return NextResponse.json({ message: "Something went wrong", status: response.status });
   } catch (error) {
 
     console.log("fcked up",{error})
@@ -80,7 +81,7 @@ export async function POST (
     //   }
     // }
 
-    return Response.json({
+    return NextResponse.json({
       message:
         "Oops! There was an error subscribing you to the newsletter. Please email me at ogbonnakell@gmail.com and I'll add you to the list.",
         status: 500

@@ -1,4 +1,3 @@
-import { MobileNavbar } from "@/components/mobile-navbar";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -48,7 +47,7 @@ export function Header() {
           </Button>
         </div>
       </div>
-      <MobileNavbar className="hidden">
+      {/* <MobileNavbar className="hidden">
         <div className="container hidden rounded-b-lg bg-background py-4 text-foreground shadow-xl">
           <nav className="flex flex-col gap-1 pt-2">
             <Link
@@ -76,7 +75,7 @@ export function Header() {
             </Button>
           </nav>
         </div>
-      </MobileNavbar>
+      </MobileNavbar> */}
     </header>
   );
 }
