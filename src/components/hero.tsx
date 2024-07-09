@@ -1,4 +1,5 @@
 'use client'  
+import { ArrowRight } from "lucide-react";
 import WaitlistForm from "./ui/form/WaitlistForm";
 
 export function Hero() {
@@ -6,10 +7,14 @@ export function Hero() {
   return (
     <section className="container flex flex-col items-center gap-8 pt-20 sm:gap-10">
 
-      <div className="flex cursor-pointer items-center gap-1 rounded-full border bg-secondary px-3 py-0.5 hover:bg-secondary/60">
-        <span className="text-sm text-secondary-foreground">Join &quot;0 to web3&quot; today!</span>
-        {/* <ArrowRight size={16} /> */}
-      </div>
+      <a href="https://discord.gg/Vbx65uzV" target="_blank">
+        <div className="flex cursor-pointer items-center gap-1 rounded-full border bg-secondary px-3 py-0.5 hover:bg-secondary/60">
+          <span className="text-sm text-secondary-foreground">
+            Join DblockEd&rsquo;s Discord today
+          </span>
+          <ArrowRight size={16} />
+        </div>
+      </a>
       <h1 className="max-w-3xl text-center font-heading text-4xl font-semibold sm:text-5xl sm:leading-tight">
         Become a Fullstack Web3 Developer
       </h1>
