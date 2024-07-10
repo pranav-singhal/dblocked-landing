@@ -1,23 +1,21 @@
 import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
+  Accordion, AccordionContent, AccordionItem,
+  AccordionTrigger
 } from "@/components/ui/accordion";
 
 export function Faq() {
   return (
     <section className="container flex flex-col items-center gap-6 py-24 sm:gap-7">
       <div className="flex flex-col gap-3">
-        <span className="font-bold uppercase text-primary text-center">Faq</span>
-        <h2 className="font-heading text-3xl font-semibold sm:text-4xl text-center">
+        <span className="text-center font-bold uppercase text-primary">Faq</span>
+        <h2 className="text-center font-heading text-3xl font-semibold sm:text-4xl">
           Frequently Asked Questions
         </h2>
       </div>
-      <p className="max-w-lg text-lg text-muted-foreground text-center">
+      <p className="max-w-lg text-center text-lg text-muted-foreground">
         For any other questions, please feel free to contact us.
       </p>
-      <Accordion type="single" collapsible className="mt-6 w-full divide-y max-w-3xl">
+      <Accordion type="single" collapsible className="mt-6 w-full max-w-3xl divide-y">
         <AccordionItem value="item-0" className="border-b-0">
           <AccordionTrigger className="py-6 text-left text-lg hover:no-underline">
             When is the program launching?
@@ -62,8 +60,8 @@ export function Faq() {
           </AccordionTrigger>
           <AccordionContent className="text-lg text-muted-foreground">
             Absolutely not! &quot; 0 to Web3&quot; is, and always will be free for everyone who
-            signs up. Our business model is completely B2B, which means we will never try to sell
-            you courses
+            signs up. 
+            We are supported by excellent partners and grants. This ensures that we will be able to give you quality content for absolutely 0 cost
           </AccordionContent>
         </AccordionItem>
       </Accordion>
