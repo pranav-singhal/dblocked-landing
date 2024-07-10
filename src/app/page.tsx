@@ -5,6 +5,7 @@ import { FeaturesSection } from "@/components/features-section";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Hero } from "@/components/hero";
+import { SocialProof } from "@/components/social-proof";
 import { Technologies } from "@/components/technologies";
 import { Testimonials } from "@/components/testimonials";
 
@@ -13,6 +14,7 @@ export default function Home() {
     <>
       <Header />
       <Hero />
+      <SocialProof />
       <Technologies />
       <Features />
       <FeaturesSection />
