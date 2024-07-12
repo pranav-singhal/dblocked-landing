@@ -14,10 +14,10 @@ export const metadata: Metadata = {
   title: 'DBlockEd | 0 To Web3',
   description: '0 to Web3 is a continuous developer education program. It is a never ending program that makes you a full stack web3 developer',
   openGraph: {
-    images: ['/images/banner.jpg']
+    images: ['https://www.dblocked.io/images/banner.jpg']
   },
   twitter: {
-    images: ['/images/banner.jpg']
+    images: ['https://www.dblocked.io/images/banner.jpg']
   },
 }
 
