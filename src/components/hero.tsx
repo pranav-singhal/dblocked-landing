@@ -7,7 +7,7 @@ export function Hero() {
   return (
     <section className="container flex flex-col items-center gap-8 pt-20 sm:gap-10">
 
-      <a href="https://discord.gg/Vbx65uzV" target="_blank">
+      <a href="https://discord.gg/8xHAFsCeZj" target="_blank">
         <div className="flex cursor-pointer items-center gap-1 rounded-full border bg-secondary px-3 py-0.5 hover:bg-secondary/60">
           <span className="text-sm text-secondary-foreground">
             Join DblockEd&rsquo;s Discord today
