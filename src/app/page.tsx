@@ -8,6 +8,7 @@ import { Hero } from "@/components/hero";
 import { SocialProof } from "@/components/social-proof";
 import { Technologies } from "@/components/technologies";
 import { Testimonials } from "@/components/testimonials";
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from 'next';
  
 export const metadata: Metadata = {
@@ -34,6 +35,7 @@ export default function Home() {
       <Faq />
       <CtaSection />
       <Footer />
+      <Analytics />
     </>
   );
 }
