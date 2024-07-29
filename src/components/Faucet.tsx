@@ -26,10 +26,9 @@ const Faucet = () => {
             body: JSON.stringify({ address: userAddress })
         });
         const result = await response.json();
+
         if (response.ok && result.message === 'Address is allowed to withdraw') {
             setVerification(true);
-            setLastWithdrawalTime(BigNumber.from(result.lastWithdrawalTime));
-            setWithdrawalDelay(BigNumber.from(result.withdrawalDelay));
             toast.update(toastId.current, {
                 render: "Address is verified 🥳",
                 isLoading: false,
@@ -73,7 +72,9 @@ const Faucet = () => {
             const data = await response.json();
             const txHash = data.txHash;
             setTxHash(txHash);
-            setVerification(false); 
+            setVerification(false);
+            setLastWithdrawalTime(null);
+            setWithdrawalDelay(null);
             toast.update(toastId.current, {
                 render: "Funds Sent Successfully! 🎉",
                 isLoading: false,
@@ -119,7 +120,7 @@ const Faucet = () => {
         const address = e.target.value;
         setUserAddress(address);
         setIsValidAddress(ethers.utils.isAddress(address));
-        setVerification(false); 
+        setVerification(false);
         setLastWithdrawalTime(null);
         setWithdrawalDelay(null);
     }
@@ -161,12 +162,7 @@ const Faucet = () => {
                                 Follow your transaction at <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Etherscan 🚀</a>
                             </p>
                         )}
-                        {lastWithdrawalTime !== null && (
-                            <p className="text-center mt-4">
-                                Last withdrawal time: {formatDate(lastWithdrawalTime)}
-                            </p>
-                        )}
-                        {lastWithdrawalTime !== null && withdrawalDelay !== null && !verification && (
+                        {lastWithdrawalTime !== null && !verification && withdrawalDelay !== null && (
                             <p className="text-center mt-4">
                                 Next possible withdrawal time: {getNextWithdrawalTime()}
                             </p>

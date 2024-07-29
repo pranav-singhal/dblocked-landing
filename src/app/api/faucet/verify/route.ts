@@ -1,41 +1,39 @@
 import { NextResponse } from 'next/server';
-import { ethers } from 'ethers';
+import { initializeClients, publicClient } from '../../../../lib/client';
 import { abi, address } from '../../../../lib/constants';
-require("dotenv").config();
-
-let provider: ethers.providers.JsonRpcProvider | null = null;
-let signer: ethers.Wallet | null = null;
-let contract: ethers.Contract | null = null;
-
-function initializeContract() {
-    if (!provider || !signer || !contract) {
-        const privateKey = process.env.PRIVATE_KEY;
-        const rpcUrl = process.env.SEPOLIA_RPC_URL;
-
-        if (!privateKey || !rpcUrl) {
-            throw new Error('Missing environment variables: PRIVATE_KEY or SEPOLIA_RPC_URL');
-        }
-
-        provider = new ethers.providers.JsonRpcProvider({
-            url: rpcUrl,
-            skipFetchSetup: true,
-        });
-        signer = new ethers.Wallet(privateKey, provider);
-        contract = new ethers.Contract(address, abi, signer);
-    }
-}
 
 async function verify(userAddress: string) {
     try {
-        initializeContract();
+        initializeClients();
 
-        const [canWithdrawResult, reason, lastWithdrawalTime] = await contract!.canWithdraw(userAddress);
-        const withdrawalDelay = await contract!.withdrawalDelay();
+        if (!publicClient) {
+            throw new Error('Public client is not initialized');
+        }
+
+        type CanWithdrawResult = [boolean, string, bigint];
+        type WithdrawalDelayResult = bigint;
+
+        const [canWithdrawResult, reason, lastWithdrawalTime] = await publicClient.readContract({
+            address,
+            abi,
+            functionName: 'canWithdraw',
+            args: [userAddress],
+        }) as CanWithdrawResult;
+
+        const withdrawalDelay = await publicClient.readContract({
+            address,
+            abi,
+            functionName: 'withdrawalDelay',
+            args: [],
+        }) as WithdrawalDelayResult;
+
+        const formattedLastWithdrawalTime = lastWithdrawalTime.toString();
+        const formattedWithdrawalDelay = withdrawalDelay.toString();
 
         if (canWithdrawResult) {
-            return NextResponse.json({ message: 'Address is allowed to withdraw', lastWithdrawalTime, withdrawalDelay });
+            return NextResponse.json({ message: 'Address is allowed to withdraw', lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay });
         } else {
-            return NextResponse.json({ message: reason, lastWithdrawalTime, withdrawalDelay });
+            return NextResponse.json({ message: reason, lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay });
         }
     } catch (error) {
         console.error('Error during verification:', error);

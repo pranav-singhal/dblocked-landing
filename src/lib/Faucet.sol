@@ -24,7 +24,7 @@ contract Faucet {
     function deposit() external payable {}
 
     function withdraw(address payable _to) external onlyOwner {
-        (bool canWithdrawResult, string memory reason, uint lastTime) = canWithdraw(_to);
+        (bool canWithdrawResult, string memory reason, ) = canWithdraw(_to);
         require(canWithdrawResult, reason);
         require(address(this).balance >= withdrawalAmount, "Insufficient balance in faucet");
         _to.transfer(withdrawalAmount);

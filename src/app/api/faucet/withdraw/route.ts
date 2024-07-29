@@ -1,38 +1,32 @@
 import { NextResponse } from 'next/server';
-import { ethers } from 'ethers';
+import { initializeClients, walletClient, publicClient, account } from '../../../../lib/client';
 import { abi, address } from '../../../../lib/constants';
-require("dotenv").config();
-
-let provider: ethers.providers.JsonRpcProvider | null = null;
-let signer: ethers.Wallet | null = null;
-let contract: ethers.Contract | null = null;
-
-function initializeContract() {
-    if (!provider || !signer || !contract) {
-        const privateKey = process.env.PRIVATE_KEY;
-        const rpcUrl = process.env.SEPOLIA_RPC_URL;
-
-        if (!privateKey || !rpcUrl) {
-            throw new Error('Missing environment variables: PRIVATE_KEY or SEPOLIA_RPC_URL');
-        }
-
-        provider = new ethers.providers.JsonRpcProvider({
-            url: rpcUrl,
-            skipFetchSetup: true,
-        });
-        signer = new ethers.Wallet(privateKey, provider);
-        contract = new ethers.Contract(address, abi, signer);
-    }
-}
+import { sepolia } from 'viem/chains';
 
 async function withdraw(userAddress: string) {
     try {
-        initializeContract();
+        initializeClients();
 
-        const tx = await contract!.withdraw(userAddress);
-        await provider!.waitForTransaction(tx.hash);
+        if (!walletClient || !account) {
+            throw new Error('Wallet client or account is not initialized');
+        }
 
-        return NextResponse.json({ message: 'Tokens withdrawn successfully', txHash: tx.hash });
+        if(!publicClient) {
+            throw new Error('Public client is not initialized');
+        }
+
+        const hash = await walletClient.writeContract({
+            address,
+            abi,
+            functionName: 'withdraw',
+            args: [userAddress],
+            chain: sepolia,
+            account,
+        });
+
+        const txReceipt = await publicClient!.waitForTransactionReceipt({ hash });
+
+        return NextResponse.json({ message: 'Tokens withdrawn successfully', txHash: hash });
     } catch (error) {
         console.error('Error during withdrawal:', error);
         return NextResponse.json({ message: 'Failed to withdraw tokens' }, { status: 500 });
