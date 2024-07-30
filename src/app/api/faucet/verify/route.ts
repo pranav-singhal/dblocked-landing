@@ -31,9 +31,15 @@ async function verify(userAddress: string) {
         const formattedWithdrawalDelay = withdrawalDelay.toString();
 
         if (canWithdrawResult) {
-            return NextResponse.json({ message: 'Address is allowed to withdraw', lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay });
+            return NextResponse.json(
+                { message: 'Address is allowed to withdraw', lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay },
+                { status: 200 }
+            );
         } else {
-            return NextResponse.json({ message: reason, lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay });
+            return NextResponse.json(
+                { message: reason, lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay },
+                { status: 400 }
+            );
         }
     } catch (error) {
         console.error('Error during verification:', error);

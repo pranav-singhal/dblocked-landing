@@ -4,15 +4,15 @@ import React, { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { BigNumber, ethers } from 'ethers';
+import { isAddress } from 'viem';
 
 const Faucet = () => {
     const [verification, setVerification] = useState(false);
     const [userAddress, setUserAddress] = useState('');
     const [isValidAddress, setIsValidAddress] = useState(true);
     const [txHash, setTxHash] = useState<string | null>(null);
-    const [lastWithdrawalTime, setLastWithdrawalTime] = useState<BigNumber | null>(null);
-    const [withdrawalDelay, setWithdrawalDelay] = useState<BigNumber | null>(null);
+    const [lastWithdrawalTime, setLastWithdrawalTime] = useState<bigint | null>(null);
+    const [withdrawalDelay, setWithdrawalDelay] = useState<bigint | null>(null);
 
     const toastId = React.useRef<string | number | null>(null);
 
@@ -27,20 +27,20 @@ const Faucet = () => {
         });
         const result = await response.json();
 
-        if (response.ok && result.message === 'Address is allowed to withdraw') {
+        if (response.ok) {
             setVerification(true);
             toast.update(toastId.current, {
-                render: "Address is verified 🥳",
+                render: result.message,
                 isLoading: false,
                 autoClose: 5000,
                 type: "success",
             });
-        } else if (response.ok && result.message === 'Withdrawal delay not met') {
+        } else if (response.status === 400) {
             setVerification(false);
-            setLastWithdrawalTime(BigNumber.from(result.lastWithdrawalTime));
-            setWithdrawalDelay(BigNumber.from(result.withdrawalDelay));
+            setLastWithdrawalTime(BigInt(result.lastWithdrawalTime));
+            setWithdrawalDelay(BigInt(result.withdrawalDelay));
             toast.update(toastId.current, {
-                render: "Withdrawal delay not met 🕒",
+                render: result.message,
                 isLoading: false,
                 autoClose: 5000,
                 type: "error",
@@ -68,9 +68,10 @@ const Faucet = () => {
             body: JSON.stringify({ address: userAddress })
         });
 
+        const result = await response.json();
+
         if (response.ok) {
-            const data = await response.json();
-            const txHash = data.txHash;
+            const txHash = result.txHash;
             setTxHash(txHash);
             setVerification(false);
             setLastWithdrawalTime(null);
@@ -81,9 +82,9 @@ const Faucet = () => {
                 autoClose: 5000,
                 type: "success",
             });
-        } else {
+        } else if (response.status === 500) {
             toast.update(toastId.current, {
-                render: "Failed to send Funds",
+                render: result.message || "Failed to send funds 😢",
                 isLoading: false,
                 autoClose: 5000,
                 type: "error",
@@ -91,14 +92,14 @@ const Faucet = () => {
         }
     }
 
-    const formatDate = (timestamp: BigNumber | string) => {
+    const formatDate = (timestamp: bigint | string) => {
         let numericTimestamp: number;
 
         if (typeof timestamp === 'string') {
             numericTimestamp = parseInt(timestamp, 16);
         }
-        else if (BigNumber.isBigNumber(timestamp)) {
-            numericTimestamp = timestamp.toNumber();
+        else if (typeof timestamp === 'bigint') {
+            numericTimestamp = Number(timestamp);
         } else {
             throw new Error('Invalid timestamp format');
         }
@@ -110,7 +111,7 @@ const Faucet = () => {
 
     const getNextWithdrawalTime = () => {
         if (lastWithdrawalTime && withdrawalDelay) {
-            const nextTime = lastWithdrawalTime.add(withdrawalDelay);
+            const nextTime = lastWithdrawalTime + withdrawalDelay;
             return formatDate(nextTime);
         }
         return "Invalid date";
@@ -119,7 +120,7 @@ const Faucet = () => {
     const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const address = e.target.value;
         setUserAddress(address);
-        setIsValidAddress(ethers.utils.isAddress(address));
+        setIsValidAddress(isAddress(address));
         setVerification(false);
         setLastWithdrawalTime(null);
         setWithdrawalDelay(null);

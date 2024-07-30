@@ -11,7 +11,7 @@ async function withdraw(userAddress: string) {
             throw new Error('Wallet client or account is not initialized');
         }
 
-        if(!publicClient) {
+        if (!publicClient) {
             throw new Error('Public client is not initialized');
         }
 
@@ -26,10 +26,20 @@ async function withdraw(userAddress: string) {
 
         const txReceipt = await publicClient!.waitForTransactionReceipt({ hash });
 
-        return NextResponse.json({ message: 'Tokens withdrawn successfully', txHash: hash });
+        return NextResponse.json(
+            { message: 'Tokens withdrawn successfully', txHash: hash },
+            { status: 200 }
+        );
     } catch (error) {
         console.error('Error during withdrawal:', error);
-        return NextResponse.json({ message: 'Failed to withdraw tokens' }, { status: 500 });
+        const errorMessage = (error as { shortMessage?: string; message?: string }).shortMessage
+            || (error as Error).message
+            || 'Failed to send funds';
+
+        return NextResponse.json(
+            { message: errorMessage },
+            { status: 500 }
+        );
     }
 }
 
@@ -41,6 +51,9 @@ export async function POST(req: Request) {
         return await withdraw(userAddress);
     } catch (error) {
         console.error('Error processing request:', error);
-        return NextResponse.json({ message: (error as Error).message }, { status: 500 });
+        return NextResponse.json(
+            { message: (error as Error).message || 'Failed to process request' },
+            { status: 500 }
+        );
     }
 }
