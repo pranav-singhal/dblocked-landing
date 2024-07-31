@@ -34,6 +34,7 @@ export function initializeClients() {
             transport: http(rpcUrl),
         });
     }
+
+    return { publicClient, walletClient, account };
 }
 
-export { publicClient, walletClient, account };

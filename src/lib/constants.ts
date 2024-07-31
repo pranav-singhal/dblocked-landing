@@ -218,5 +218,5 @@ export const abi = [
 	}
 ]
 
-export const address = '0x262cE5187Ea9a477a308700D13162832Da7e779a'
+export const address = '0xFEd96eD3BA563a79fD29D6e63e7c2f55d24AC0bB'
 

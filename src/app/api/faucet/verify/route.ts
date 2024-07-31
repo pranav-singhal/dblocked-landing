@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
-import { initializeClients, publicClient } from '../../../../lib/client';
+import { initializeClients } from '../../../../lib/client';
 import { abi, address } from '../../../../lib/constants';
 
 async function verify(userAddress: string) {
     try {
-        initializeClients();
+        const { publicClient } = initializeClients();
 
         if (!publicClient) {
             throw new Error('Public client is not initialized');
@@ -35,12 +35,12 @@ async function verify(userAddress: string) {
                 { message: 'Address is allowed to withdraw', lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay },
                 { status: 200 }
             );
-        } else {
-            return NextResponse.json(
-                { message: reason, lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay },
-                { status: 400 }
-            );
         }
+        return NextResponse.json(
+            { message: reason, lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay },
+            { status: 400 }
+        );
+
     } catch (error) {
         console.error('Error during verification:', error);
         return NextResponse.json({ message: 'Failed to verify address' }, { status: 500 });

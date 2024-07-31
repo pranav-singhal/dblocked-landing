@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { initializeClients, walletClient, publicClient, account } from '../../../../lib/client';
+import { initializeClients } from '../../../../lib/client';
 import { abi, address } from '../../../../lib/constants';
 import { sepolia } from 'viem/chains';
 
 async function withdraw(userAddress: string) {
     try {
-        initializeClients();
+        const { publicClient, walletClient, account } = initializeClients();
 
         if (!walletClient || !account) {
             throw new Error('Wallet client or account is not initialized');
