@@ -6,10 +6,6 @@ async function verify(userAddress: string) {
     try {
         const { publicClient } = initializeClients();
 
-        if (!publicClient) {
-            throw new Error('Public client is not initialized');
-        }
-
         type CanWithdrawResult = [boolean, string, bigint];
         type WithdrawalDelayResult = bigint;
 

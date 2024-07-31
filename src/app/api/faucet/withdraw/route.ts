@@ -7,14 +7,6 @@ async function withdraw(userAddress: string) {
     try {
         const { publicClient, walletClient, account } = initializeClients();
 
-        if (!walletClient || !account) {
-            throw new Error('Wallet client or account is not initialized');
-        }
-
-        if (!publicClient) {
-            throw new Error('Public client is not initialized');
-        }
-
         const hash = await walletClient.writeContract({
             address,
             abi,
