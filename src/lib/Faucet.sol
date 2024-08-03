@@ -5,7 +5,7 @@ contract Faucet {
     address public owner;
     mapping(address => bool) public allowedAddresses;
     mapping(address => uint) public lastWithdrawalTime;
-    uint public withdrawalDelay; 
+    uint public withdrawalDelay;
     uint public withdrawalAmount;
 
     modifier onlyOwner() {
@@ -24,6 +24,7 @@ contract Faucet {
     function deposit() external payable {}
 
     function withdraw(address payable _to) external onlyOwner {
+        require(isAddressAllowed(_to), "ADDRESS_NOT_WHITELISTED");
         (bool canWithdrawResult, string memory reason, ) = canWithdraw(_to);
         require(canWithdrawResult, reason);
         require(address(this).balance >= withdrawalAmount, "Insufficient balance in faucet");
@@ -39,7 +40,7 @@ contract Faucet {
         allowedAddresses[_address] = true;
     }
 
-    function isAddressAllowed(address _address) external view returns (bool) {
+    function isAddressAllowed(address _address) public view returns (bool) {
         return allowedAddresses[_address];
     }
 
@@ -52,9 +53,7 @@ contract Faucet {
     }
 
     function canWithdraw(address _to) public view returns (bool, string memory, uint) {
-        if (!allowedAddresses[_to]) {
-            return (false, "Address not allowed to withdraw", 0);
-        }
+        require(isAddressAllowed(_to), "ADDRESS_NOT_WHITELISTED");
         if (block.timestamp < lastWithdrawalTime[_to] + withdrawalDelay) {
             return (false, "Withdrawal delay not met", lastWithdrawalTime[_to]);
         }
