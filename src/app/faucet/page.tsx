@@ -15,6 +15,7 @@ const page = () => {
     const [txHash, setTxHash] = useState<string | null>(null);
     const [lastWithdrawalTime, setLastWithdrawalTime] = useState<bigint | null>(null);
     const [withdrawalDelay, setWithdrawalDelay] = useState<bigint | null>(null);
+    const [isWhitelisted, setIsWhitelisted] = useState<boolean | null>(true);
 
     const toastId = React.useRef<string | number | null>(null);
 
@@ -31,6 +32,7 @@ const page = () => {
 
         if (response.ok) {
             setVerification(true);
+            setIsWhitelisted(true);
             toast.update(toastId.current, {
                 render: result.message,
                 isLoading: false,
@@ -41,7 +43,9 @@ const page = () => {
         }
 
         setVerification(false);
-        if (response.status === 400) {
+        if (response.status === 401) {
+            setIsWhitelisted(false);
+        } else if (response.status === 400) {
             setLastWithdrawalTime(BigInt(result.lastWithdrawalTime));
             setWithdrawalDelay(BigInt(result.withdrawalDelay));
         } else {
@@ -57,7 +61,6 @@ const page = () => {
         });
         return false;
     }
-
 
     const sendFunds = async () => {
         toastId.current = toast.loading("Sending Funds...");
@@ -94,7 +97,6 @@ const page = () => {
     }
 
     const formatDate = (timestamp: bigint | string) => {
-
         const numericTimestamp: number = typeof timestamp === 'string' ? parseInt(timestamp, 16) : Number(timestamp);
 
         if (numericTimestamp === 0) return "Never";
@@ -118,6 +120,7 @@ const page = () => {
         setVerification(false);
         setLastWithdrawalTime(null);
         setWithdrawalDelay(null);
+        setIsWhitelisted(true);
     }
 
     return (
@@ -155,6 +158,14 @@ const page = () => {
                                 {!isValidAddress && (
                                     <p className="text-red-500 text-center mt-2">Invalid Ethereum address</p>
                                 )}
+                                {!isWhitelisted && (
+                                    <p className="text-red-500 text-center mt-2">
+                                        Join our
+                                        <a href="https://discord.gg/8xHAFsCeZj" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> Discord </a>
+                                        to get whitelisted.
+                                    </p>
+
+                                )}
                                 {txHash && (
                                     <p className="text-center mt-4 break-words">
                                         Follow your transaction at <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Etherscan 🚀</a>
@@ -173,8 +184,7 @@ const page = () => {
             </main>
             <Footer />
         </div>
-
     );
 }
 
-export default page
+export default page;

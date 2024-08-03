@@ -9,12 +9,23 @@ async function verify(userAddress: string) {
         type CanWithdrawResult = [boolean, string, bigint];
         type WithdrawalDelayResult = bigint;
 
-        const [canWithdrawResult, reason, lastWithdrawalTime] = await publicClient.readContract({
-            address,
-            abi,
-            functionName: 'canWithdraw',
-            args: [userAddress],
-        }) as CanWithdrawResult;
+        let canWithdrawResult: boolean;
+        let reason: string;
+        let lastWithdrawalTime: bigint;
+
+        try {
+            [canWithdrawResult, reason, lastWithdrawalTime] = await publicClient.readContract({
+                address,
+                abi,
+                functionName: 'canWithdraw',
+                args: [userAddress],
+            }) as CanWithdrawResult;
+        } catch (error) {
+            if ((error as Error).message.includes('ADDRESS_NOT_WHITELISTED')) {
+                return NextResponse.json({ message: 'ADDRESS_NOT_WHITELISTED' }, { status: 401 });
+            }
+            throw error;
+        }
 
         const withdrawalDelay = await publicClient.readContract({
             address,
@@ -32,6 +43,7 @@ async function verify(userAddress: string) {
                 { status: 200 }
             );
         }
+
         return NextResponse.json(
             { message: reason, lastWithdrawalTime: formattedLastWithdrawalTime, withdrawalDelay: formattedWithdrawalDelay },
             { status: 400 }
