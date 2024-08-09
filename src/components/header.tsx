@@ -19,6 +19,14 @@ export function Header() {
       <div className="flex items-center gap-10">
         <nav className="hidden items-center gap-10 md:flex justify-end">
           <Link
+            href="/students"
+            className="flex cursor-pointer items-center text-lg font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
+          >
+            Students
+          </Link>
+        </nav>
+        <nav className="hidden items-center gap-10 md:flex justify-end">
+          <Link
             href="/faucet"
             className="flex cursor-pointer items-center text-lg font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
           >
