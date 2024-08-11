@@ -1,6 +1,3 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -11,15 +8,11 @@ interface Performer {
     image: string;
 }
 
-export function Performers() {
-    const [performers, setPerformers] = useState<Performer[]>([]);
+export async function Performers() {
 
-    useEffect(() => {
-        fetch("/data/performers.json")
-            .then((response) => response.json())
-            .then((data: Performer[]) => setPerformers(data))
-            .catch((error) => console.error("Error fetching performers:", error));
-    }, []);
+    const response = await fetch('/data/testimonials.json');
+    const performers: Performer[] = await response.json();
+
 
     return (
         <section className="container flex flex-col items-center gap-6 py-24 sm:gap-7">

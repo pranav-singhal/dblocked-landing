@@ -1,6 +1,3 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import {
     Carousel,
@@ -18,15 +15,12 @@ interface testimonial {
     image: string;
 }
 
-export function StudentTestimonials() {
-    const [studentTestimonials, setstudentTestimonials] = useState<testimonial[]>([]);
+export async function StudentTestimonials() {
 
-    useEffect(() => {
-        fetch("/data/testimonials.json")
-            .then((response) => response.json())
-            .then((data: testimonial[]) => setstudentTestimonials(data))
-            .catch((error) => console.error("Error fetching studentTestimonials:", error));
-    }, []);
+    const response = await fetch('/data/testimonials.json');
+    const studentTestimonials: testimonial[] = await response.json();
+
+
 
     return (
         <section className="container flex flex-col items-center gap-6 py-24 sm:gap-7">
@@ -37,7 +31,7 @@ export function StudentTestimonials() {
                 </h2>
             </div>
             <p className="text-lg text-muted-foreground max-w-lg text-center">
-            Here's what our students around the internet are saying about us.
+                Here's what our students around the internet are saying about us.
             </p>
             <Carousel opts={{ loop: true, align: "start" }} className="mt-6 w-full px-4 xl:px-0">
                 <CarouselPrevious className="-left-6 size-7 xl:-left-12 xl:size-8" />
