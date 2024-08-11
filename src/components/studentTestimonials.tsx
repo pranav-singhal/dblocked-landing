@@ -1,48 +1,36 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import {
-    Carousel,
-    CarouselPrevious,
-    CarouselContent,
-    CarouselItem,
-    CarouselNext,
-} from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+    Carousel, CarouselContent,
+    CarouselItem,
+    CarouselNext, CarouselPrevious
+} from "@/components/ui/carousel";
+import Image from "next/image";
 
-interface testimonial {
+interface Testimonial {
     name: string;
     username: string;
     quote: string;
     image: string;
 }
 
-export function StudentTestimonials() {
-    const [studentTestimonials, setstudentTestimonials] = useState<testimonial[]>([]);
+export default function StudentTestimonials({testimonials}: {testimonials: Testimonial[]}) {
 
-    useEffect(() => {
-        fetch("/data/testimonials.json")
-            .then((response) => response.json())
-            .then((data: testimonial[]) => setstudentTestimonials(data))
-            .catch((error) => console.error("Error fetching studentTestimonials:", error));
-    }, []);
 
     return (
         <section className="container flex flex-col items-center gap-6 py-24 sm:gap-7">
             <div className="flex flex-col gap-3">
-                <span className="font-bold uppercase text-primary text-center">Testimonials</span>
-                <h2 className="font-heading text-3xl font-semibold sm:text-4xl text-center">
+                <span className="text-center font-bold uppercase text-primary">Testimonials</span>
+                <h2 className="text-center font-heading text-3xl font-semibold sm:text-4xl">
                     What our Students say
                 </h2>
             </div>
-            <p className="text-lg text-muted-foreground max-w-lg text-center">
-            Here's what our students around the internet are saying about us.
+            <p className="max-w-lg text-center text-lg text-muted-foreground">
+            Here`&apos;`s what our students around the internet are saying about us.
             </p>
             <Carousel opts={{ loop: true, align: "start" }} className="mt-6 w-full px-4 xl:px-0">
                 <CarouselPrevious className="-left-6 size-7 xl:-left-12 xl:size-8" />
                 <CarouselContent className="pb-4">
-                    {studentTestimonials.map((testimonial, index) => (
+                    {testimonials.map((testimonial, index) => (
                         <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
                             <div className="h-full p-1">
                                 <Card className="h-full shadow-md">

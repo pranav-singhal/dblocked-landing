@@ -1,18 +1,28 @@
-import React from 'react'
-import { Header } from '@/components/header'
-import { Footer } from '@/components/footer'
-import { Performers } from '@/components/perfomers'
-import { StudentTestimonials } from '@/components/studentTestimonials'
+import { Footer } from '@/components/footer';
+import { Header } from '@/components/header';
+import StudentTestimonials from '@/components/studentTestimonials';
+import React from 'react';
 
-const page = () => {
+interface Testimonial {
+    name: string;
+    username: string;
+    quote: string;
+    image: string;
+}
+
+
+const Students = async () => {
+    const res = await fetch(`${process.env.BASE_URL as string}/api/testimonials`);  
+    const data = await res.json();
+    const testimonials: Testimonial[] = data.testimonials;
     return (
         <div>
             <Header />
-            <Performers />
-            <StudentTestimonials />
+            {/* <Performers /> */}
+            <StudentTestimonials testimonials={testimonials} />
             <Footer />
         </div>
     )
 }
 
-export default page
+export default Students;
