@@ -1,5 +1,5 @@
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
+import Image from "next/image";
 
 interface Performer {
     name: string;
@@ -8,21 +8,18 @@ interface Performer {
     image: string;
 }
 
-export async function Performers() {
-
-    const response = await fetch('/data/testimonials.json');
-    const performers: Performer[] = await response.json();
-
+export function Performers({performers}: {performers: Performer[]}) {
+    
 
     return (
         <section className="container flex flex-col items-center gap-6 py-24 sm:gap-7">
             <div className="flex flex-col gap-3">
-                <span className="font-bold uppercase text-primary text-center">Top Performers</span>
-                <h2 className="font-heading text-3xl font-semibold sm:text-4xl text-center">
+                <span className="text-center font-bold uppercase text-primary">Top Performers</span>
+                <h2 className="text-center font-heading text-3xl font-semibold sm:text-4xl">
                     Our Star Builders
                 </h2>
             </div>
-            <p className="text-lg text-muted-foreground max-w-lg text-center">
+            <p className="max-w-lg text-center text-lg text-muted-foreground">
                 Here are the top performers of this week. Keep building to see yourself here.
             </p>
             <div className="mt-6 grid auto-rows-fr grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
