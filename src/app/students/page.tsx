@@ -2,6 +2,7 @@ import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import StudentTestimonials from '@/components/studentTestimonials';
 import React from 'react';
+import { Performers } from '../../components/perfomers';
 
 interface Testimonial {
     name: string;
@@ -10,15 +11,27 @@ interface Testimonial {
     image: string;
 }
 
+interface Performer {
+    name: string;
+    username: string;
+    quote: string;
+    image: string;
+}
+
+
 
 const Students = async () => {
-    const res = await fetch(`${process.env.BASE_URL as string}/api/testimonials`);  
-    const data = await res.json();
-    const testimonials: Testimonial[] = data.testimonials;
+    const testimonialRes = await fetch(`${process.env.BASE_URL as string}/api/testimonials`);  
+    const testimonialData = await testimonialRes.json();
+    const testimonials: Testimonial[] = testimonialData.testimonials;
+
+    const performersRes = await fetch(`${process.env.BASE_URL as string}/api/performers`);  
+    const performersData = await performersRes.json();
+    const performers: Performer[] = performersData.performers;
     return (
         <div>
             <Header />
-            {/* <Performers /> */}
+            <Performers performers={performers} />
             <StudentTestimonials testimonials={testimonials} />
             <Footer />
         </div>
