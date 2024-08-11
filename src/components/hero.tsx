@@ -1,6 +1,7 @@
 'use client'  
 import { ArrowRight } from "lucide-react";
-import WaitlistForm from "./ui/form/WaitlistForm";
+import Link from "next/link";
+import { Button } from "./ui/button";
 
 export function Hero() {
   
@@ -20,9 +21,21 @@ export function Hero() {
       </h1>
       <p className="max-w-lg text-center text-lg text-muted-foreground sm:text-xl">
         Get access to a free, continuous developer education program that grows and evolves with the
-        industry
+        industry.
       </p>
-     <WaitlistForm />
+
+      <p className="max-w-lg text-center text-lg text-muted-foreground sm:text-xl">
+        Stand a chance to win travel scholarships to the biggest Ethereum Hackathon
+      </p>
+      
+      <Button
+        size="lg"
+        asChild
+        className="h-12 cursor-pointer border-border text-base sm:h-14 sm:px-10"
+      >
+        <Link target="_blank" href="https://bit.ly/4c5uk4c">Enroll Now!</Link>
+      </Button>
+
       <p className="max-w-lg text-center text-lg text-muted-foreground sm:text-xl">
         Watch the intro video 👇
       </p>
