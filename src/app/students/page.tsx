@@ -31,6 +31,7 @@ const getData = async () => {
         return {performers, testimonials}
     }
      catch (error) {
+         console.error("error while fetch student data", error);
         return { performers: [], testimonials: [] };
 
      }
