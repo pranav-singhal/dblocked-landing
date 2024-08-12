@@ -18,16 +18,30 @@ interface Performer {
     image: string;
 }
 
+const getData = async () => {
+    try {
+        const testimonialRes = await fetch(`${process.env.BASE_URL as string}/api/testimonials`);  
+        const testimonialData = await testimonialRes.json();
+        const testimonials: Testimonial[] = testimonialData.testimonials;
+    
+        const performersRes = await fetch(`${process.env.BASE_URL as string}/api/performers`);  
+        const performersData = await performersRes.json();
+        const performers: Performer[] = performersData.performers;
+    
+        return {performers, testimonials}
+    }
+     catch (error) {
+        return { performers: [], testimonials: [] };
+
+     }
+    
+}
+
 
 
 const Students = async () => {
-    const testimonialRes = await fetch(`${process.env.BASE_URL as string}/api/testimonials`);  
-    const testimonialData = await testimonialRes.json();
-    const testimonials: Testimonial[] = testimonialData.testimonials;
 
-    const performersRes = await fetch(`${process.env.BASE_URL as string}/api/performers`);  
-    const performersData = await performersRes.json();
-    const performers: Performer[] = performersData.performers;
+    const {performers, testimonials} = await getData();
     return (
         <div>
             <Header />
