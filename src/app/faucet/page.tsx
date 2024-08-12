@@ -1,14 +1,14 @@
 "use client";
 
-import React, { useState } from 'react';
-import { Card, CardContent } from "@/components/ui/card";
-import { Header } from "@/components/header";
 import { Footer } from "@/components/footer";
-import { ToastContainer, toast } from 'react-toastify';
+import { Header } from "@/components/header";
+import { Card, CardContent } from "@/components/ui/card";
+import React, { useState } from 'react';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isAddress } from 'viem';
 
-const page = () => {
+const Faucet = () => {
     const [verification, setVerification] = useState(false);
     const [userAddress, setUserAddress] = useState('');
     const [isValidAddress, setIsValidAddress] = useState(true);
@@ -124,25 +124,25 @@ const page = () => {
     }
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex min-h-screen flex-col">
             <Header />
-            <main className="flex-grow flex justify-center items-center p-4">
-                <div className="flex flex-col flex-grow justify-center items-center w-full p-4">
-                    <Card className="shadow-lg w-full max-w-3xl">
-                        <CardContent className="flex flex-col justify-between items-center p-6 bg-[#F5F5F5] text-black rounded-[3rem]">
-                            <p className="text-center mb-4">Enter your address to receive free Funds</p>
+            <main className="flex grow items-center justify-center p-4">
+                <div className="flex w-full grow flex-col items-center justify-center p-4">
+                    <Card className="w-full max-w-3xl shadow-lg">
+                        <CardContent className="flex flex-col items-center justify-between rounded-[3rem] bg-[#F5F5F5] p-6 text-black">
+                            <p className="mb-4 text-center">Enter your address to receive free Funds</p>
                             <button
                                 onClick={checkEligibility}
-                                className={`font-semibold py-2 px-4 rounded-lg ${verification ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-blue-500 text-white hover:bg-blue-600'} focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 disabled:bg-gray-400 disabled:text-gray-700 disabled:cursor-not-allowed`}
+                                className={`rounded-lg px-4 py-2 font-semibold ${verification ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-blue-500 text-white hover:bg-blue-600'} focus:outline-none focus:ring-2 focus:ring-blue-300 focus:ring-opacity-50 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:text-gray-700`}
                                 disabled={!isValidAddress || verification}
                             >
                                 {!verification ? 'Verify Eligibility' : 'Verified ✅'}
                             </button>
-                            <div className="flex flex-col w-full mt-4">
-                                <div className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 w-full">
+                            <div className="mt-4 flex w-full flex-col">
+                                <div className="flex w-full flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
                                     <input
                                         type="text"
-                                        className={`border-2 rounded-lg p-2 w-full min-w-[245px] ${isValidAddress ? 'border-black' : 'border-red-500'}`}
+                                        className={`w-full min-w-[245px] rounded-lg border-2 p-2 ${isValidAddress ? 'border-black' : 'border-red-500'}`}
                                         placeholder="Enter address"
                                         value={userAddress}
                                         onChange={handleAddressChange}
@@ -150,16 +150,16 @@ const page = () => {
                                     <button
                                         onClick={sendFunds}
                                         disabled={!verification}
-                                        className={`font-semibold py-2 px-4 rounded-lg ${verification ? 'bg-green-500 text-white hover:bg-green-600' : 'bg-gray-400 text-gray-700 cursor-not-allowed'} ${verification ? 'hover:bg-green-600' : ''}`}
+                                        className={`rounded-lg px-4 py-2 font-semibold ${verification ? 'bg-green-500 text-white hover:bg-green-600' : 'cursor-not-allowed bg-gray-400 text-gray-700'} ${verification ? 'hover:bg-green-600' : ''}`}
                                     >
                                         Get Funds
                                     </button>
                                 </div>
                                 {!isValidAddress && (
-                                    <p className="text-red-500 text-center mt-2">Invalid Ethereum address</p>
+                                    <p className="mt-2 text-center text-red-500">Invalid Ethereum address</p>
                                 )}
                                 {!isWhitelisted && (
-                                    <p className="text-red-500 text-center mt-2">
+                                    <p className="mt-2 text-center text-red-500">
                                         Join our
                                         <a href="https://discord.gg/8xHAFsCeZj" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline"> Discord </a>
                                         to get whitelisted.
@@ -167,12 +167,12 @@ const page = () => {
 
                                 )}
                                 {txHash && (
-                                    <p className="text-center mt-4 break-words">
+                                    <p className="mt-4 break-words text-center">
                                         Follow your transaction at <a href={`https://sepolia.etherscan.io/tx/${txHash}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Etherscan 🚀</a>
                                     </p>
                                 )}
                                 {lastWithdrawalTime !== null && !verification && withdrawalDelay !== null && (
-                                    <p className="text-center mt-4">
+                                    <p className="mt-4 text-center">
                                         Next possible withdrawal time: {getNextWithdrawalTime()}
                                     </p>
                                 )}
@@ -187,4 +187,4 @@ const page = () => {
     );
 }
 
-export default page;
+export default Faucet;

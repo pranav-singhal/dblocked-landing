@@ -1,8 +1,8 @@
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
+import { Performers } from '@/components/perfomers';
 import StudentTestimonials from '@/components/studentTestimonials';
-import React from 'react';
-import { Performers } from '../../components/perfomers';
+
 
 interface Testimonial {
     name: string;
