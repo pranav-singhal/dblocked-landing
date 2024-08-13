@@ -23,12 +23,13 @@ interface Performer {
 }
 
 const getData = async () => {
+    
     try {
-        const testimonialRes = await fetch(`${process.env.BASE_URL as string}/api/testimonials`);  
+        const testimonialRes = await fetch(`${process.env.BASE_URL as string}/api/testimonials`, { cache: 'no-store' });  
         const testimonialData = await testimonialRes.json();
         const testimonials: Testimonial[] = testimonialData.testimonials;
     
-        const performersRes = await fetch(`${process.env.BASE_URL as string}/api/performers`);  
+        const performersRes = await fetch(`${process.env.BASE_URL as string}/api/performers`, { cache: 'no-store' });  
         const performersData = await performersRes.json();
         const performers: Performer[] = performersData.performers;
     
