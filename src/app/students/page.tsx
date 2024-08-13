@@ -16,6 +16,11 @@ interface Performer {
     username: string;
     quote: string;
     image: string;
+    links?: {
+        github?: string;
+        x?: string;
+        linkedin?: string;
+    };
 }
 
 const getData = async () => {

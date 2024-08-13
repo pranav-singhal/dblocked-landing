@@ -6,6 +6,11 @@ interface Performer {
     username: string;
     quote: string;
     image: string;
+    links?: {
+        github?: string;
+        x?: string;
+        linkedin?: string;
+    };
 }
 
 export function Performers({performers}: {performers: Performer[]}) {
@@ -43,6 +48,53 @@ export function Performers({performers}: {performers: Performer[]}) {
                             <p className="text-foreground">
                                 {`"${performer.quote}"`}
                             </p>
+                            <div className="flex items-center gap-5 float-right pr-2 pb-2">
+                                {performer.links?.github && (
+                                    <a
+                                        href={performer.links.github}
+                                        target="_blank"
+                                        className="text-muted-foreground hover:text-foreground"
+                                    >
+                                        <Image
+                                            src='/images/github.svg'
+                                            alt="Github"
+                                            width={24}
+                                            height={24}
+                                            className="size-5"
+                                        />
+                                    </a>
+                                )}
+                                {performer.links?.x && (
+                                    <a
+                                        href={performer.links.x}
+                                        target="_blank"
+                                        className="text-muted-foreground hover:text-foreground"
+                                    >
+                                        <Image
+                                            src='/images/x.svg'
+                                            alt="X"
+                                            width={24}
+                                            height={24}
+                                            className="size-5"
+                                        />
+                                    </a>
+                                )}
+                                {performer.links?.linkedin && (
+                                    <a
+                                        href={performer.links.linkedin}
+                                        target="_blank"
+                                        className="text-muted-foreground hover:text-foreground"
+                                    >
+                                        <Image
+                                            src='/images/linkedin.svg'
+                                            alt="LinkedIn"
+                                            width={24}
+                                            height={24}
+                                            className="size-5"
+                                        />
+                                    </a>
+                                )}
+                            </div>
                         </CardContent>
                     </Card>
                 ))}

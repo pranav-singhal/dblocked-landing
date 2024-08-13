@@ -2,6 +2,17 @@ import { MobileNavbar } from "@/components/mobile-navbar";
 import Image from "next/image";
 import Link from "next/link";
 
+const links = [
+  // {
+  //   name: "Students",
+  //   href: "/students",
+  // },
+  {
+    name: "Faucet",
+    href: "/faucet",
+  }
+]
+
 
 export function Header() {
   return (
@@ -18,37 +29,30 @@ export function Header() {
       </Link>
       <div className="flex items-center gap-10">
         <nav className="hidden items-center justify-end gap-10 md:flex">
-          {/* <Link
-            href="/students"
-            className="flex cursor-pointer items-center text-lg font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
-          >
-            Students
-          </Link> */}
-          <Link
-            href="/faucet"
-            className="flex cursor-pointer items-center text-lg font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
-          >
-            Faucet
-          </Link>
+          {links.map((link, index) => (
+            <Link
+              href={link.href}
+              key={index}
+              className="flex cursor-pointer items-center text-lg font-medium text-muted-foreground transition-colors hover:text-foreground sm:text-sm"
+            >
+              {link.name}
+            </Link>
+          ))}
         </nav>
-        
+
       </div>
       <MobileNavbar>
         <div className="container rounded-b-lg bg-background py-4 text-foreground shadow-xl">
           <nav className="flex flex-col gap-1 pt-2">
-            <Link
-              href="/faucet"
-              className="flex w-full cursor-pointer items-center rounded-md p-2 font-medium text-muted-foreground hover:text-foreground"
-            >
-              Faucet
-            </Link>
-
-            {/* <Link
-              href="/students"
-              className="flex w-full cursor-pointer items-center rounded-md p-2 font-medium text-muted-foreground hover:text-foreground"
-            >
-              Students
-            </Link> */}
+            {links.map((link, index) => (
+              <Link
+                href={link.href}
+                key={index}
+                className="flex w-full cursor-pointer items-center rounded-md p-2 font-medium text-muted-foreground hover:text-foreground"
+              >
+                {link.name}
+              </Link>))
+            }
           </nav>
         </div>
       </MobileNavbar>
