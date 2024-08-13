@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Performer {
     name: string;
@@ -25,7 +26,7 @@ export function Performers({performers}: {performers: Performer[]}) {
                 </h2>
             </div>
             <p className="max-w-lg text-center text-lg text-muted-foreground">
-                Here are the top performers of this week. Keep building to see yourself here.
+                Here are the top performers of this week
             </p>
             <div className="mt-6 grid auto-rows-fr grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
                 {performers.map((performer, index) => (
@@ -42,13 +43,15 @@ export function Performers({performers}: {performers: Performer[]}) {
                                 </div>
                                 <div>
                                     <p className="font-semibold leading-none text-foreground">{performer.name}</p>
-                                    <p className="mt-1 leading-none text-muted-foreground">{performer.username}</p>
+                                    <Link target="_blank" href={`https://www.github.com/${performer.username}`} >
+                                    <p className="mt-1 leading-none text-muted-foreground">@{performer.username}</p>
+                                    </Link>
                                 </div>
                             </div>
                             <p className="text-foreground">
                                 {`"${performer.quote}"`}
                             </p>
-                            <div className="flex items-center gap-5 float-right pr-2 pb-2">
+                            <div className="float-right flex items-center gap-5 pb-2 pr-2">
                                 {performer.links?.github && (
                                     <a
                                         href={performer.links.github}

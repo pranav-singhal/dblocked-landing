@@ -3,10 +3,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 const links = [
-  // {
-  //   name: "Students",
-  //   href: "/students",
-  // },
+  {
+    name: "Students",
+    href: "/students",
+  },
   {
     name: "Faucet",
     href: "/faucet",

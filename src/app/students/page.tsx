@@ -1,7 +1,6 @@
 import { Footer } from '@/components/footer';
 import { Header } from '@/components/header';
 import { Performers } from '@/components/perfomers';
-import StudentTestimonials from '@/components/studentTestimonials';
 
 
 interface Testimonial {
@@ -52,7 +51,7 @@ const Students = async () => {
         <div>
             <Header />
             <Performers performers={performers} />
-            <StudentTestimonials testimonials={testimonials} />
+            {/* <StudentTestimonials testimonials={testimonials} /> */}
             <Footer />
         </div>
     )
