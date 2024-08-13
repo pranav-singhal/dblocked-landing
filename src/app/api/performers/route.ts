@@ -5,7 +5,12 @@ const performers = [
         "name": "John",
         "username": "@johndoe",
         "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec ultrices orci. Vivamus ante arcu, hendrerit bibendum felis a, volutpat feugiat tellus. Aliquam erat volutpat.",
-        "image": "/images/logo.jpg"
+        "image": "/images/logo.jpg",
+        "links": {
+            "github": "https://github.com/DBlockEd",
+            "x": "https://x.com/DBlockEd",
+            "linkedin": "https://www.linkedin.com/company/dblocked/"
+        }
     },
     {
         "name": "Max",
@@ -29,7 +34,11 @@ const performers = [
         "name": "Micheal",
         "username": "@michael",
         "quote": "Vivamus dignissim porta orci, finibus tempus risus consectetur dapibus. Donec quis ornare elit. Curabitur tempor eget urna eget lobortis dolor varius.",
-        "image": "/images/logo.jpg"
+        "image": "/images/logo.jpg",
+        "links": {
+            "github": "https://github.com/DBlockEd",
+            "linkedin": "https://www.linkedin.com/company/dblocked/"
+        }
     },
     {
         "name": "Linda",
