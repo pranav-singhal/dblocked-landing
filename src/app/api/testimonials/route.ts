@@ -2,51 +2,30 @@ import { NextResponse } from "next/server";
 
 const testimonials = [
     {
-        "name": "John",
-        "username": "@johndoe",
-        "quote": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec ultrices orci. Vivamus ante arcu, hendrerit bibendum felis a, volutpat feugiat tellus. Aliquam erat volutpat.",
-        "image": "/images/logo.jpg"
+        "name": "Pavan Emani",
+        "quote": "It's a time worthy course. Learnt about how web3 works, got a good understanding over how to build smart contracts efficiently, security conventions and vulnerabilities."
     },
     {
-        "name": "Max",
-        "username": "@maxcook",
-        "quote": "Mauris tincidunt porttitor risus, et posuere erat malesuada eu. Praesent volutpat ut ipsum ac congue. Vestibulum nec orci ornare, imperdiet metus vel.",
-        "image": "/images/logo.jpg"
+        "name": "Afreen Hosa",
+        "quote": "The community is so active, there are sessions every now and then, updates on upcoming hackathons, and it's a great environment to be in! There are grades, ranking, and makes learning more fun! I still have to start making progress on my learning, but all the pings that I get on Discord, I just love to see how great the community and platform is! Thanks Pranav"
     },
     {
-        "name": "Bob",
-        "username": "@thisisbob",
-        "quote": "Curabitur at quam eget eros semper euismod vitae at neque. Ut ultrices ut tortor et feugiat. Etiam vitae nisi eleifend, blandit ligula quis, sodales neque.",
-        "image": "/images/logo.jpg"
+        "name": "Vansh Sahay",
+        "quote": "It was really inclusive and beginner friendly, I had personally never done anything related to web3 before and this was a good starting point for me, the resources and support I got was really helpful and the amazing people in this community help you learn and grow so much!"
     },
     {
-        "name": "Emily",
-        "username": "@emilysmith",
-        "quote": "Suspendisse a velit elit. Curabitur augue libero, vulputate sed dui id, sodales venenatis sem. Suspendisse dapibus neque eu justo volutpat gravida.",
-        "image": "/images/logo.jpg"
-    },
-    {
-        "name": "Micheal",
-        "username": "@michael",
-        "quote": "Vivamus dignissim porta orci, finibus tempus risus consectetur dapibus. Donec quis ornare elit. Curabitur tempor eget urna eget lobortis dolor varius.",
-        "image": "/images/logo.jpg"
-    },
-    {
-        "name": "Linda",
-        "username": "@thisislinda",
-        "quote": "Nullam non lorem vitae risus volutpat dictum non sed magna. Aliquam in venenatis quam. Morbi feugiat tristique leo, vel ultrices dolor varius non. Quisque dictum tortor eu nunc.",
-        "image": "/images/logo.jpg"
+        "name": "Aditya Kr",
+        "quote": "I've explored many courses, About Instructor - His dedication and passion for teaching and helping students is next level. I have learned so many things from him and will continue to do so. The course and one-on-one sessions are also good. We've just started and we are growing community-wise. If you have a problem, the DBlockEd community is there to help you out."
     }
-  ]
-  
+]
 
 
-export async function GET (
+
+export async function GET(
     req: Request,
     res: Response
-  ) { 
+) {
 
 
     return NextResponse.json({ testimonials, status: 200 });
-  }
-  
+}
